@@ -1,4 +1,4 @@
-KBEngine_ue4_demo(UE4.18.3)
+KBEngine_ue4_demo(UE4.22.3)
 =============
 
 ## This client-project is written for KBEngine(a MMOG engine of server)
@@ -12,12 +12,11 @@ http://www.kbengine.org
 ## Releases
 
 	sources		: https://github.com/kbengine/kbengine_ue4_demo/releases/latest
-	binarys		: https://sourceforge.net/projects/kbengine/files/
 
 
 ## KBE-Plugins docs
 
-	https://github.com/kbengine/kbengine_ue4_plugins/blob/master/README.md
+	kbengine_ue4_demo\Plugins\kbengine_ue4_plugins\README.md
 
 
 ## Start:
@@ -27,39 +26,40 @@ http://www.kbengine.org
 			https://github.com/kbengine/kbengine/releases/latest
 
 		Build(KBEngine):
-			http://www.kbengine.org/docs/build.html
+			http://kbengine.github.io/docs/build.html
 
 		Installation(KBEngine):
-			http://www.kbengine.org/docs/installation.html
+			http://kbengine.github.io/docs/installation.html
 
-	2. Use git to get the plugin(client) and demo-assets(server):
+	2. Use git to get the demo-assets(server):
 
 		In the kbengine_ue4_demo directory:
 
 		* Git command: git submodule update --init --remote
-![submodule_update1](http://www.kbengine.org/assets/img/screenshots/gitbash_submodule.png)
+![submodule_update1](http://kbengine.github.io/assets/img/screenshots/gitbash_submodule.png)
 
 		* Or use TortoiseGit(menu): TortoiseGit -> Submodule Update:
-![submodule_update2](http://www.kbengine.org/assets/img/screenshots/unity3d_plugins_submodule_update.jpg)
+![submodule_update2](http://kbengine.github.io/assets/img/screenshots/unity3d_plugins_submodule_update.jpg)
 
-		* Or manually get the plugin(client) and demo-assets(server)
-
-			Download plugin(client):
-				https://github.com/kbengine/kbengine_ue4_plugins/releases/latest
-				unzip and copy to "kbengine_ue4_demo/Plugins/KBEnginePlugins"
+		* Or manually get the demo-assets(server)
 
 			Download demo-assets(server):
 				https://github.com/kbengine/kbengine_demos_assets/releases/latest
 				unzip and copy to "kbengine/"  (The root directory server engine, such as $KBE_ROOT)
 
 	3. Copy "kbengine_ue4_demo\kbengine_demos_assets" to "kbengine\" root directory
-![demo_configure](http://www.kbengine.org/assets/img/screenshots/demo_copy_kbengine.jpg)
+![demo_configure](http://kbengine.github.io/assets/img/screenshots/demo_copy_kbengine.jpg)
+
+
+	4. Generate a Client plugins from the server-side asset library (optional, one by default unless the server-assets is modified)
+		1: Double-click to run kbengine/kbengine_demos_asset/gensdk.bat
+		2: Copy kbengine_ue4_plugins to kbengine_ue4_demo\Plugins\
 
 
 ## Configure Demo(Optional):
 
 	Change the login address:
-![demo_configure](http://www.kbengine.org/assets/img/screenshots/demo_configure_ue4.jpg)
+![demo_configure](http://kbengine.github.io/assets/img/screenshots/demo_configure_ue4.jpg)
 
 		kbengine_ue4_demo\Content\ClientApp-> ip
 		kbengine_ue4_demo\Content\ClientApp-> port
@@ -73,7 +73,7 @@ http://www.kbengine.org
 	Check the startup status:
 		If successful will find log "Components::process(): Found all the components!".
 		Otherwise, please search the "ERROR" keyword in logs, according to the error description to try to solve.
-		(More: http://www.kbengine.org/docs/startup_shutdown.html)
+		(More: http://kbengine.github.io/docs/startup_shutdown.html)
 
 	Start server:
 		Windows:
@@ -82,7 +82,7 @@ http://www.kbengine.org
 		Linux:
 			kbengine\kbengine_demos_assets\start_server.sh
 
-		(More: http://www.kbengine.org/docs/startup_shutdown.html)
+		(More: http://kbengine.github.io/docs/startup_shutdown.html)
 
 
 ## Start the Client:
@@ -99,6 +99,9 @@ http://www.kbengine.org
 	Generation Navmeshs:
 		...
 
+	Tools:
+		https://github.com/darkwere/ServerRecast
+
 
 ## Structure and interpretation:
 			
@@ -113,38 +116,38 @@ http://www.kbengine.org
 	clientapp：
 		In the system of KBE abstraction of a client APP, which contains the KBE client plug-in initialization and destruction, etc.
 
-	Plugins\KBEnginePlugins
+	Plugins\KBEnginePlugins\Source\KBEnginePlugins\Engine
 		Client plug-in core codes.
 
-	Source\kbe_scripts:
+	Plugins\KBEnginePlugins\Source\KBEnginePlugins\Scripts:
 		KBE client logic scripts(in this implementation of the server side of the entity script, the entity's bag data structure, skills in client condition checks, etc.).
 
-		kbe_scripts\Account：
+		Scripts\Account：
 			Corresponds to the client side of the KBE server account entity.
 
-		kbe_scripts\Avatar：
+		Scripts\Avatar：
 			Corresponds to the client side of the KBE server avatar entity.
 
-		kbe_scripts\Monster：
+		Scripts\Monster：
 			Corresponds to the client side of the KBE server monster entity.
 
-		kbe_scripts\interfaces\：
+		Scripts\interfaces\：
 			Corresponding to the module defined in KBE(entity_defs\interfaces).
 
-	Source\ue4_scripts:
-		ue4_scripts\PlayerCharacter：
+	Source\kbengine_ue4_demo:
+		kbengine_ue4_demo\PlayerCharacter：
 			Current client player, the script processing model and animation and other parts.
 
-		ue4_scripts\GameEntity：
+		kbengine_ue4_demo\GameEntity：
 			Whether the monster or other players, by the script responsible for the model and animation and other parts.
 
-		ue4_scripts\GameModeLogin:
+		kbengine_ue4_demo\GameModeLogin:
 			Manage landing scenes, listen for events related to the KBE plug-in, and trigger events to the plug-in.
 
-		ue4_scripts\GameModeSelectAvatar:
+		kbengine_ue4_demo\GameModeSelectAvatar:
 			Manage role selection scenarios, listen for events related to the KBE plug-in, and trigger events on the plug-in.
 
-		ue4_scripts\GameModeWorld:
+		kbengine_ue4_demo\GameModeWorld:
 			Listen to events related to the KBE plug-in, trigger events to the plug-in, and manage scripts for in-game maps, such as creating a specific 3D monster in the scene.
 
 	Content\LoginScene:
@@ -158,6 +161,6 @@ http://www.kbengine.org
 
 ## Screenshots:
 
-![screenshots1](http://www.kbengine.org/assets/img/screenshots/ue4_demo1.jpg)
-![screenshots2](http://www.kbengine.org/assets/img/screenshots/ue4_demo2.jpg)
-![screenshots3](http://www.kbengine.org/assets/img/screenshots/ue4_demo3.jpg)
+![screenshots1](http://kbengine.github.io/assets/img/screenshots/ue4_demo1.jpg)
+![screenshots2](http://kbengine.github.io/assets/img/screenshots/ue4_demo2.jpg)
+![screenshots3](http://kbengine.github.io/assets/img/screenshots/ue4_demo3.jpg)
